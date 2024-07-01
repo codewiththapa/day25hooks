@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React,{useEffect,useState} from 'react'
+//import MyComponent from './MyComponent'
+import axios from 'axios'
 
-function App() {
+const App = () => {
+  const [toogle,setToogle] = useState(true);
+  const [count,setCount] = useState(1);
+  const [text,setText] = useState("")
+  useEffect(()=>{
+  //component DidMount
+ // window.addEventListener("click",abc);
+    // fetch(`http://numbersapi.com/${count}`)
+    // .then((response)=>response.text())
+    // .then((data)=>setText(data))
+    axios.get(`http://numbersapi.com/${count}`)
+    .then((response)=>setText(response.data))
+    //cleanup function
+    //component will unmount
+    return()=>{
+    // window.removeEventListener("click",abc)
+      console.log(" component will unmount")
+    }
+  },[count]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {text}
+      <br />
+      <br />
+      <button onClick={()=>setCount(count+1)}>Increase</button>
+      <button onClick={()=>setToogle(!toogle)}>Toogle</button>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
